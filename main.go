@@ -1,7 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+
+	"github.com/cjdenio/dockerenv-cli/pkg/api"
+)
 
 func main() {
-	fmt.Println("Hello World!")
+	data, err := api.Image("postgres")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%#v", data)
 }
