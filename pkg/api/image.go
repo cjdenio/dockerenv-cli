@@ -3,7 +3,6 @@ package api
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -69,12 +68,10 @@ func Image(imageName string) (ImageData, error) {
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
-		return ImageData{}, errors.New(
-			fmt.Sprintf(
-				"Failed to get data for %v. Returned status code of %v",
-				imageName,
-				resp.Status,
-			),
+		return ImageData{}, fmt.Errorf(
+			"Failed to get data for %v. Returned status code of %v",
+			imageName,
+			resp.Status,
 		)
 	}
 
@@ -89,13 +86,12 @@ func Image(imageName string) (ImageData, error) {
 		return ImageData{}, err
 	}
 	if len(data.Errors) != 0 {
-		return ImageData{}, errors.New(
-			fmt.Sprintf(
-				"Failed to get data for %v as the following error occurred:\n%v",
-				imageName,
-				data.Errors[0].Message,
-			),
+		return ImageData{}, fmt.Errorf(
+			"Failed to get data for %v as the following error occurred:\n%v",
+			imageName,
+			data.Errors[0].Message,
 		)
+
 	}
 
 	return data.Data.Image.ImageData, nil
