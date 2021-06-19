@@ -1,16 +1,14 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
-	"github.com/cjdenio/dockerenv-cli/pkg/api"
+	"github.com/cjdenio/dockerenv-cli/pkg/cmd"
 )
 
 func main() {
-	data, err := api.Image("postgres")
+	err := cmd.RootCmd.Execute()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalln(err)
 	}
-	fmt.Printf("%#v", data)
 }
