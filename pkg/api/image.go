@@ -8,6 +8,11 @@ import (
 	"net/http"
 )
 
+type GraphQLQuery struct {
+	Query     string                 `json:"query"`
+	Variables map[string]interface{} `json:"variables"`
+}
+
 // Raw image data returned from the API
 type rawImageData struct {
 	Data struct {
@@ -36,10 +41,10 @@ type ImageData struct {
 func Image(imageName string) (ImageData, error) {
 	// Formulating query
 	query, err := json.Marshal(
-		map[string]string{
-			"query": fmt.Sprintf(`
-			query {
-				image(name: %q) {
+		GraphQLQuery{
+			Query: `
+			query($image: String!) {
+				image(name: $image) {
 					url
 					variables {
 						name
@@ -50,7 +55,10 @@ func Image(imageName string) (ImageData, error) {
 					}
 				}
 			}
-		`, imageName),
+		`,
+			Variables: map[string]interface{}{
+				"image": imageName,
+			},
 		},
 	)
 	if err != nil {
