@@ -35,15 +35,21 @@ var RootCmd = &cobra.Command{
 			return err
 		}
 		if !dontIncludeVariables {
-			fmt.Println("Variables:")
-			fmt.Println()
-			for _, variable := range data.Variables {
-				fmt.Println("\tName:", variable.Name)
-				fmt.Println("\tDescription:", variable.Description)
-				fmt.Println("\tDefault:", variable.Default)
-				fmt.Println("\tRequired:", variable.Required)
-				fmt.Println("\tUncommon:", variable.Uncommon)
+			fmt.Printf("Variables: ")
+			if *data.Variables == nil {
+				fmt.Println("This image has no variables")
+			} else if len(*data.Variables) == 0 {
+				fmt.Println("This image's variables haven't been documented yet")
+			} else {
 				fmt.Println()
+				for _, variable := range *data.Variables {
+					fmt.Println("\tName:", variable.Name)
+					fmt.Println("\tDescription:", variable.Description)
+					fmt.Println("\tDefault:", variable.Default)
+					fmt.Println("\tRequired:", variable.Required)
+					fmt.Println("\tUncommon:", variable.Uncommon)
+					fmt.Println()
+				}
 			}
 		}
 

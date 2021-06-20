@@ -14,7 +14,7 @@ func TestImage(t *testing.T) {
 	assert.Equal(
 		t,
 		result1,
-		ImageData{URL: "https://hub.docker.com/_/postgres", Variables: []struct {
+		ImageData{URL: "https://hub.docker.com/_/postgres", Variables: &[]struct {
 			Name        string
 			Description string
 			Default     string

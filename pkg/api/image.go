@@ -8,6 +8,7 @@ import (
 	"net/http"
 )
 
+// A graphql query
 type GraphQLQuery struct {
 	Query     string                 `json:"query"`
 	Variables map[string]interface{} `json:"variables"`
@@ -28,7 +29,7 @@ type rawImageData struct {
 // Image outline
 type ImageData struct {
 	URL       string
-	Variables []struct {
+	Variables *[]struct {
 		Name        string
 		Description string
 		Default     string
@@ -99,7 +100,6 @@ func Image(imageName string) (ImageData, error) {
 			imageName,
 			data.Errors[0].Message,
 		)
-
 	}
 
 	return data.Data.Image.ImageData, nil
